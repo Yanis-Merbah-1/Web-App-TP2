@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProduitController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Liste des produits</h1>
+
+{% for produit in produits %}
+
+    <p>Reference : {{ produit.reference }} -- </p>
+    <p>Nom : {{ produit.nom }} -- </p>
+    <p>Description : {{ produit.description }} -- </p>
+    <p>Prix : {{ produit.prix}} -- </p>
+    <p>Stock : {{ produit.stock}} -- </p>
+
+    /////////////
+    {% else %}
+
+     <p>Aucun client disponible</p>
+
+    {% endfor %}
+
+</div>
+{% endblock %}

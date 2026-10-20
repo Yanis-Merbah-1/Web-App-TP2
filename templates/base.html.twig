@@ -1,0 +1,25 @@
+ <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Gestion TP3{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg" viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>
+        {% block stylesheets %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </head>
+    <body>
+        <!-- Menu de navigation principal -->
+        <header>
+            <nav style="background-color: #333; padding: 15px;">
+                <a href="{{ path('app_accueil') }}" style="color: white; margin-right: 20px; text-decoration: none; font-weight: bold;">🏠 Accueil</a>
+                <a href="{{ path('app_client') }}" style="color: white; margin-right: 20px; text-decoration: none;">👥 Clients</a>
+                <a href="{{ path('app_produit') }}" style="color: white; margin-right: 20px; text-decoration: none;">📦 Produits</a>
+                
+        </header>
+
+        <!-- Contenu spécifique de chaque page -->
+        <main style="padding: 20px;">
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>

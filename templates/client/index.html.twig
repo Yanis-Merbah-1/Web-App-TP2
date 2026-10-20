@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ClientController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Liste des clients</h1>
+
+    {% for client in clients %}
+
+    <p>Nom : {{ client.nom }} -- </p>
+    <p>Prenom : {{ client.Prenom }} -- </p>
+    <p>Email : {{ client.Email }} -- </p>
+    <p>Telephone : {{ client.Telephone}} -- </p>
+    <a href="{{ path('app_client_show', {'id': client.id}) }}">Détail </a> <br>
+
+    
+    /////////////
+    {% else %}
+
+     <p>Aucun client disponible</p>
+
+    {% endfor %}
+
+    
+    
+</div>
+{% endblock %}
