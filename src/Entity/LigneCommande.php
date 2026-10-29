@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LigneCommandeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LigneCommandeRepository::class)]
 class LigneCommande
@@ -15,6 +16,8 @@ class LigneCommande
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La quantité est obligatoire.')]
+    #[Assert\Positive(message: 'La quantité doit être supérieure à 0.')]
     private ?int $quantite = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -27,8 +30,8 @@ class LigneCommande
     private ?Commande $commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'ligneCommandes')]
+    #[Assert\NotNull(message: 'Le produit est obligatoire.')]
     private ?Produit $produit = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +96,5 @@ class LigneCommande
 
         return $this;
     }
+
 }

@@ -1,26 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProduitController!{% endblock %}
+{% block title %}Produit index{% endblock %}
 
 {% block body %}
+    <h1>Produit index</h1>
 
-<div class="example-wrapper">
-    <h1>Liste des produits</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reference</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Prix</th>
+                <th>Stock</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.reference }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.date ? produit.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.stock }}</td>
+                <td>
+                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-{% for produit in produits %}
-
-    <p>Reference : {{ produit.reference }} -- </p>
-    <p>Nom : {{ produit.nom }} -- </p>
-    <p>Description : {{ produit.description }} -- </p>
-    <p>Prix : {{ produit.prix}} -- </p>
-    <p>Stock : {{ produit.stock}} -- </p>
-
-    /////////////
-    {% else %}
-
-     <p>Aucun client disponible</p>
-
-    {% endfor %}
-
-</div>
+    <a href="{{ path('app_produit_new') }}">Create new</a>
 {% endblock %}

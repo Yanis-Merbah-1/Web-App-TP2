@@ -34,7 +34,7 @@ class Commande
     /**
      * @var Collection<int, LigneCommande>
      */
-    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande')]
+    #[ORM\OneToMany(targetEntity: LigneCommande::class, mappedBy: 'commande', cascade: ['persist'], orphanRemoval: true)]
     private Collection $ligneCommandes;
 
     public function __construct()
@@ -135,5 +135,15 @@ class Commande
         }
 
         return $this;
+    }
+
+    // 🔥 La méthode pour calculer le total
+    public function recalculerTotal(): void
+    {
+        $total = 0;
+        foreach ($this->ligneCommandes as $ligne) {
+            $total += (float) $ligne->getMontant();
+        }
+        $this->total = number_format($total, 2, '.', '');
     }
 }

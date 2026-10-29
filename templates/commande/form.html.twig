@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ titre }}{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ titre }}</h1>
+        
+    {{ form_start(form) }}
+        {{ form_row(form.numero) }}
+        {{ form_row(form.statut) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.client) }}
+
+        <h3>Produits commandés</h3>
+        <ul id="ligne-commandes-list" data-prototype="{{ form_widget(form.ligneCommandes.vars.prototype)|e('html_attr') }}">
+            {% for ligne in form.ligneCommandes %}
+                <li>{{ form_row(ligne) }}</li>
+            {% endfor %}
+        </ul>
+        
+        <button type="button" id="add-ligne-btn">+ Ajouter un produit</button>
+        <br><br>
+
+        <button type="submit">Enregistrer la commande</button>
+    {{ form_end(form) }}
+
+    <br>
+    <a href="{{ path('app_commande') }}">Retour à la liste</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const list = document.getElementById('ligne-commandes-list');
+        const addBtn = document.getElementById('add-ligne-btn');
+        let index = {{ form.ligneCommandes|length }};
+
+        addBtn.addEventListener('click', function() {
+            let prototype = list.dataset.prototype;
+            let newForm = prototype.replace(/__name__/g, index);
+            let li = document.createElement('li');
+            li.innerHTML = newForm;
+            list.appendChild(li);
+            index++;
+        });
+    });
+</script>
+{% endblock %}

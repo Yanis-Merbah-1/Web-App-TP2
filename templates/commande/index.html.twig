@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commandes{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>Liste des commandes</h1>
+    <a href="{{ path('commande_new') }}">+ Ajouter une commande</a>
+    <br><br>
+
+    {% for commande in commandes %}
+        <p>
+            <strong>N° : {{ commande.numero }}</strong> -- 
+            Date : {{ commande.date|date('d/m/Y') }} -- 
+            Client : {{ commande.client.prenom }} {{ commande.client.nom }} -- 
+            Total : {{ commande.total }} €
+        </p>
+        
+        <a href="{{ path('app_commande_show', {'id': commande.id}) }}">Détail</a>
+        <a href="{{ path('commande_edit', {'id': commande.id}) }}">Modifier</a>
+        
+        <form method="post" action="{{ path('commande_delete', {'id': commande.id}) }}" style="display:inline" onsubmit="return confirm('Supprimer cette commande ?')">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
+            <button type="submit">Supprimer</button>
+        </form>
+        <br><br>
+    {% else %}
+        <p>Aucune commande disponible</p>
+    {% endfor %}
+</div>
+{% endblock %}
