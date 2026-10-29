@@ -14,11 +14,18 @@
                 <a href="{{ path('app_accueil') }}" style="color: white; margin-right: 20px; text-decoration: none; font-weight: bold;">🏠 Accueil</a>
                 <a href="{{ path('app_client') }}" style="color: white; margin-right: 20px; text-decoration: none;">👥 Clients</a>
                 <a href="{{ path('app_produit') }}" style="color: white; margin-right: 20px; text-decoration: none;">📦 Produits</a>
-                
+            </nav>    
         </header>
 
         <!-- Contenu spécifique de chaque page -->
         <main style="padding: 20px;">
+            {% for message in app.flashes('success') %}
+                <p style="color: green;">{{ message }}</p>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <p style="color: red;">{{ message }}</p>
+            {% endfor %}
+
             {% block body %}{% endblock %}
         </main>
     </body>

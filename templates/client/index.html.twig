@@ -6,6 +6,8 @@
 
 <div class="example-wrapper">
     <h1>Liste des clients</h1>
+    <a href="{{ path('client_new') }}">+ Ajouter un client</a>
+    <br><br>
 
     {% for client in clients %}
 
@@ -15,7 +17,16 @@
     <p>Telephone : {{ client.Telephone}} -- </p>
     <a href="{{ path('app_client_show', {'id': client.id}) }}">Détail </a> <br>
 
+    <a href="{{ path('client_edit', {'id': client.id}) }}">Modifier</a>
     
+    <form method="post" action="{{ path('client_delete', {'id': client.id}) }}"
+          style="display:inline"
+          onsubmit="return confirm('Supprimer ce client ?')">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+        <button type="submit">Supprimer</button>
+    </form>
+    <br>
+
     /////////////
     {% else %}
 

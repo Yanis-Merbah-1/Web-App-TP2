@@ -13,7 +13,19 @@
     <p>Email : {{ client.Email }} -- </p>
     <p>Telephone : {{ client.Telephone}} -- </p>
 
-    
+<a href="{{ path('client_edit', {'id': client.id}) }}">Modifier</a>
+
+<form method="post" action="{{ path('client_delete', {'id': client.id}) }}"
+          style="display:inline"
+          onsubmit="return confirm('Supprimer ce client ?')">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ client.id) }}">
+        <button type="submit">Supprimer</button>
+    </form>
+
+    <br><br>
+
+<a href="{{ path('app_client') }}">Retour à la liste</a>
+
 </div>
 
 {% endblock %}
