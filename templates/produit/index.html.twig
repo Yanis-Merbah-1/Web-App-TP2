@@ -15,7 +15,7 @@
                 <th>Date</th>
                 <th>Prix</th>
                 <th>Stock</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +29,8 @@
                 <td>{{ produit.prix }}</td>
                 <td>{{ produit.stock }}</td>
                 <td>
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">Afficher</a>
+                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+    <a href="{{ path('app_produit_new') }}">+ Ajouter</a>
 {% endblock %}

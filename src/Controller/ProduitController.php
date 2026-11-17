@@ -17,6 +17,10 @@ final class ProduitController extends AbstractController
     #[Route(name: 'app_produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
     {
+        if(! $this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
+
         return $this->render('produit/index.html.twig', [
             'produits' => $produitRepository->findAll(),
         ]);
@@ -28,6 +32,11 @@ final class ProduitController extends AbstractController
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_produit_index');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($produit);
@@ -56,6 +65,11 @@ final class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_produit_index');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
@@ -70,7 +84,12 @@ final class ProduitController extends AbstractController
 
         #[Route('/{id}', name: 'app_produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
-    {
+    {   
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_produit_index');
+        }    
+
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->getPayload()->getString('_token'))) {
 
             if (count($produit->getLigneCommandes()) > 0) {

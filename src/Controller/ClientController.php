@@ -16,6 +16,15 @@ final class ClientController extends AbstractController
     #[Route('/client', name: 'app_client')]
     public function index(ClientRepository $repo): Response
     {
+         if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_accueil');
+        }
+
         return $this->render('client/index.html.twig', [
             'clients' => $repo->findAll(),
         ]);

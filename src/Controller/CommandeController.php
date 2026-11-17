@@ -15,7 +15,17 @@ final class CommandeController extends AbstractController
 {
     #[Route('/commande', name: 'app_commande')]
     public function index(CommandeRepository $repo): Response
-    {
+    {      
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_accueil');
+        }
+
         return $this->render('commande/index.html.twig', [
             'commandes' => $repo->findBy([], ['date' => 'DESC']),
         ]);
